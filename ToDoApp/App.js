@@ -18,16 +18,23 @@ const viewPadding = 10;
 export default class TodoList extends Component {
   state = {
     tasks: [],
-    text: ""
+    text: "",
+    searchText: "",
+    filteredData: []
   };
 
   changeTextHandler = text => {
     this.setState({ text: text });
-    this.setState({
-        Tasks: this.state.tasks.filter(function(text) {
-        return tasks.text !== text;
-      })
-    });
+   
+      this.setState({searchText: text});
+    
+      let filteredData = this.state.tasks.filter(function (item) {
+        return item.text.includes(text);
+      });
+    
+      this.setState({filteredData: filteredData});
+  
+  
   };
 
   addTask = () => {
@@ -87,7 +94,7 @@ export default class TodoList extends Component {
            /* onSubmitEditing={this.addTask} */
           placeholderTextColor="#000" 
           value={this.state.text}
-          placeholder="Add Tasks"
+          placeholder="Add Tasks or Search Task"
           returnKeyType="done"
           returnKeyLabel="done"
         />
@@ -96,7 +103,7 @@ export default class TodoList extends Component {
         </View>
         <FlatList
           style={styles.list}
-          data={this.state.tasks}
+          data={this.state.filteredData && this.state.filteredData.length > 0 ? this.state.filteredData : this.state.tasks}
           renderItem={({ item, index }) =>
             <View>
               <View style={styles.listItemCont}>
