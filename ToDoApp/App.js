@@ -23,6 +23,11 @@ export default class TodoList extends Component {
 
   changeTextHandler = text => {
     this.setState({ text: text });
+    this.setState({
+        Tasks: this.state.tasks.filter(function(text) {
+        return tasks.text !== text;
+      })
+    });
   };
 
   addTask = () => {
@@ -55,6 +60,7 @@ export default class TodoList extends Component {
     );
   };
 
+  
   componentDidMount() {
     Keyboard.addListener(
       isAndroid ? "keyboardDidShow" : "keyboardWillShow",
@@ -77,7 +83,7 @@ export default class TodoList extends Component {
         <View style={styles.AddButttomCont}>
         <TextInput
           style={styles.textInput}
-          onChangeText={this.changeTextHandler}
+          onChangeText={ this.changeTextHandler }
            /* onSubmitEditing={this.addTask} */
           placeholderTextColor="#000" 
           value={this.state.text}
@@ -85,7 +91,7 @@ export default class TodoList extends Component {
           returnKeyType="done"
           returnKeyLabel="done"
         />
-       
+       {console.log("tasks",this.state.tasks)}
         <Button title="+" onPress={()=>this.addTask(this.state.text)}/>
         </View>
         <FlatList
